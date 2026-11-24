@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 日本／韓國旅遊匯率換算 × 退稅門檻與刷卡手續費試算</title>
+  <meta name="description" content="出國血拚免拿計算機按半天！輸入日圓/韓元標價，一秒算出台幣實付金額、是否達日本 5,000 日圓退稅門檻，以及扣除海外 1.5% 刷卡手續費後的真實回饋。" />
+  <meta name="keywords" content="日本退稅計算機,日圓匯率換算,海外刷卡手續費1.5%,日本買東西退稅門檻" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "2026 日本／韓國旅遊匯率換算 × 退稅門檻與刷卡手續費試算",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TWD" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "日本退稅5000日圓是指含稅還是未稅？", "acceptedAnswer": {"@type": "Answer", "text": "是指未稅金額滿 5,000 日圓（即含 10% 消費稅標價需達 5,500 日圓）。"}}]}
+  </script>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --accent: #ea580c;
+      --accent-bg: #fff7ed;
+      --good: #059669;
+      --warn: #d97706;
+      --danger: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container { max-width: 960px; margin: 0 auto; padding: 20px 16px 48px; }
+    header { text-align: center; margin-bottom: 24px; }
+    header h1 { font-size: 1.6rem; margin: 0 0 8px; }
+    header p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    .badge {
+      display: inline-block; background: #e0f2fe; color: var(--primary-dark);
+      font-size: 0.78rem; font-weight: 600; padding: 3px 10px; border-radius: 999px; margin-bottom: 8px;
+    }
+    .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .tab-btn {
+      padding: 12px; border: 1px solid var(--border); background: var(--card);
+      border-radius: 10px; font-size: 0.98rem; font-weight: 600; cursor: pointer; color: var(--muted);
+    }
+    .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 680px) { .grid-2 { grid-template-columns: 1fr; } }
+    label { display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 6px; }
+    input[type="number"], select {
+      width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; background: #fff;
+    }
+    .pill-group, .preset-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .pill, .chip {
+      padding: 7px 12px; border: 1px solid var(--border); background: #f8fafc;
+      border-radius: 8px; font-size: 0.86rem; font-weight: 600; cursor: pointer;
+    }
+    .pill.active { background: #e0f2fe; border-color: var(--primary); color: var(--primary-dark); }
+    .chip { border-radius: 999px; font-weight: 500; }
+    .chip:hover { border-color: var(--primary); color: var(--primary-dark); }
+    .result-box { margin-top: 18px; padding: 16px; border-radius: 12px; background: #f1f5f9; }
+    .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+    .metric { background: #fff; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); }
+    .metric .label { font-size: 0.8rem; color: var(--muted); }
+    .metric .value { font-size: 1.3rem; font-weight: 700; margin-top: 2px; }
+    .metric .value.highlight { color: var(--primary-dark); }
+    .metric .value.good { color: var(--good); }
+    .metric .value.warn { color: var(--warn); }
+    .metric .value.danger { color: var(--danger); }
+    .gear-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+    .gear-card {
+      border: 1px solid var(--border); border-radius: 12px; padding: 14px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .gear-tag {
+      display: inline-block; font-size: 0.75rem; font-weight: 700; color: var(--accent);
+      background: var(--accent-bg); padding: 2px 8px; border-radius: 6px; margin-bottom: 6px;
+    }
+    .gear-card h3 { font-size: 1rem; margin: 0 0 6px; }
+    .gear-card p { font-size: 0.85rem; color: var(--muted); margin: 0 0 12px; }
+    .cta-btn {
+      display: block; text-align: center; padding: 9px 12px; border-radius: 8px;
+      background: var(--accent); color: #fff; text-decoration: none; font-weight: 700; font-size: 0.9rem;
+    }
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.88rem; }
+    th, td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: left; }
+    th { color: var(--muted); font-weight: 600; }
+    .seo-section h2 { font-size: 1.15rem; margin: 0 0 10px; }
+    .seo-section h3 { font-size: 1rem; margin: 18px 0 6px; color: var(--primary-dark); }
+    .seo-section p, .seo-section li { font-size: 0.92rem; color: #334155; }
+    .hidden { display: none; }
+    footer { text-align: center; font-size: 0.8rem; color: var(--muted); margin-top: 28px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge">出國旅遊血拚必備換算器</div>
+      <h1>2026 日韓旅遊匯率 × 退稅與刷卡實算</h1>
+      <p>現場秒算「含稅/未稅台幣多少錢」與「刷這張卡扣掉 1.5% 手續費到底有沒有賺」</p>
+    </header>
+
+    
+        <section class="card">
+          <div class="grid-2">
+            <div><label for="foreignAmt">商品標價（日圓 JPY / 韓元 KRW）</label><input type="number" id="foreignAmt" value="11000" min="0" step="100" /></div>
+            <div><label for="fxRate">參考匯率（1 外幣 = ? 台幣，日圓約 0.215）</label><input type="number" id="fxRate" value="0.215" min="0.001" max="100" step="0.001" /></div>
+          </div>
+          <div class="grid-2" style="margin-top:12px;">
+            <div><label for="cardReward">信用卡海外回饋率（%，扣 1.5% 手續費前）</label><input type="number" id="cardReward" value="3.0" min="0" max="15" step="0.1" /></div>
+            <div><label for="taxMode">商品標價是否已含 10% 消費稅？</label>
+              <select id="taxMode">
+                <option value="included" selected>標價已含 10% 消費稅（可退稅除以 1.1）</option>
+                <option value="excluded">標價為未稅價</option>
+              </select>
+            </div>
+          </div>
+          <div class="result-box">
+            <div class="result-grid">
+              <div class="metric"><div class="label">未稅原價台幣（退稅後）</div><div class="value highlight" id="twdTaxFreeEl">--</div></div>
+              <div class="metric"><div class="label">刷卡含手續費與回饋實付</div><div class="value good" id="twdNetEl">--</div></div>
+              <div class="metric"><div class="label">日本退稅門檻判定</div><div class="value" id="taxVerdictEl">--</div></div>
+            </div>
+          </div>
+        </section>
+
+    <section class="card">
+      <h2 style="font-size: 1.15rem; margin: 0 0 6px;">日韓自由行搶先準備清單</h2>
+      <p style="margin: 0 0 14px; color: var(--muted); font-size: 0.88rem;">出國前把網卡、行李秤與防盜包備齊，機場免手忙腳亂（含合作推廣連結）</p>
+      <div class="gear-grid" id="gearGrid"></div>
+    </section>
+
+    <article class="card seo-section">
+      
+          <h2>日本購物退稅怎麼算？刷卡回饋怎麼扣 1.5%？</h2>
+          <p>日本標價若為「税込（含稅）」，退稅後的金額是將含稅價 <strong>除以 1.1</strong>（相當於約 9.09% 折扣，而非直接打 9 折）。當單筆未稅金額達 <strong>5,000 日圓以上</strong>（含稅 5,500 日圓）即可辦理免稅。</p>
+    </article>
+
+    <footer>
+      <p>註：日本一般商品與消耗品未稅滿 5,000 日圓可退稅（稅率 10%）；刷卡匯率依各發卡組織實際結算日為準。 | <a href="https://jimmycmhsieh0801-cloud.github.io/">更多實用工具總目錄</a></p>
+    </footer>
+  </div>
+
+  <script src="affiliate_config.js"></script>
+  <script src="app.js"></script>
+  <script>
+    if (typeof AFFILIATE_GEARS !== "undefined") {
+      const grid = document.getElementById("gearGrid");
+      if (grid && !grid.innerHTML.trim()) {
+        grid.innerHTML = AFFILIATE_GEARS.map(
+          (g) => `
+          <div class="gear-card">
+            <div>
+              <span class="gear-tag">${g.tag}</span>
+              <h3>${g.title}</h3>
+              <p>${g.desc}</p>
+            </div>
+            <a class="cta-btn" href="${g.url}" target="_blank" rel="noopener noreferrer nofollow">${g.cta} →</a>
+          </div>`
+        ).join("");
+      }
+    }
+  </script>
+</body>
+</html>
