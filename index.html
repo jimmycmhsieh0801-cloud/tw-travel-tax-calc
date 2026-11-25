@@ -112,7 +112,7 @@
 <body>
   <div class="container">
     <header>
-      <div class="badge">出國旅遊血拚必備換算器</div>
+      <div class="badge" id="fxBadge">每日自動匯率更新：1 JPY ≈ 0.2069 TWD ｜ 1 KRW ≈ 0.0245 TWD（2026-11-25）</div>
       <h1>2026 日韓旅遊匯率 × 退稅與刷卡實算</h1>
       <p>現場秒算「含稅/未稅台幣多少錢」與「刷這張卡扣掉 1.5% 手續費到底有沒有賺」</p>
     </header>
@@ -121,7 +121,7 @@
         <section class="card">
           <div class="grid-2">
             <div><label for="foreignAmt">商品標價（日圓 JPY / 韓元 KRW）</label><input type="number" id="foreignAmt" value="11000" min="0" step="100" /></div>
-            <div><label for="fxRate">參考匯率（1 外幣 = ? 台幣，日圓約 0.215）</label><input type="number" id="fxRate" value="0.215" min="0.001" max="100" step="0.001" /></div>
+            <div><label for="fxRate">參考匯率（1 外幣 = ? 台幣，今日日圓約 0.2069 / 韓元約 0.0245）</label><input type="number" id="fxRate" value="0.2069" min="0.001" max="100" step="0.001" /></div>
           </div>
           <div class="grid-2" style="margin-top:12px;">
             <div><label for="cardReward">信用卡海外回饋率（%，扣 1.5% 手續費前）</label><input type="number" id="cardReward" value="3.0" min="0" max="15" step="0.1" /></div>
